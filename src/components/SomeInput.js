@@ -3,8 +3,10 @@ import { useState } from "react";
 const SomeInput = (props) => {
 
   const [enteredName, setEnteredName] = useState('');
-  const [isEnteredNameValid, setIsEnteredNameValid] = useState(false);
   const [wasNameInoutTouched, setWasNameInoutTouched] = useState(false);
+
+  const isEnteredNameValid = enteredName.trim() !== "";
+  const isNameInputInvalid = !isEnteredNameValid && wasNameInoutTouched;
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
@@ -12,11 +14,6 @@ const SomeInput = (props) => {
 
   const nameInputLostFocusHandler = (event) => {
     setWasNameInoutTouched(true);
-
-    if (enteredName.trim() === "") {
-      setIsEnteredNameValid(false);
-      return;
-    }
   }
 
   const formSubmitHandler = event => {
@@ -24,17 +21,13 @@ const SomeInput = (props) => {
 
     setWasNameInoutTouched(true);
 
-    if (enteredName.trim() === "") {
-      setIsEnteredNameValid(false);
+    if (!isEnteredNameValid) {
       return;
     }
 
-    setIsEnteredNameValid(true);
-
     setEnteredName("");
+    setWasNameInoutTouched(false);
   }
-
-  const isNameInputInvalid = !isEnteredNameValid && wasNameInoutTouched;
 
   const nameInputClasses = isNameInputInvalid ? "form-control invalid" : "form-control";
 
