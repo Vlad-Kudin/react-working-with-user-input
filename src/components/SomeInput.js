@@ -1,18 +1,23 @@
 import { useState } from "react";
 
-const SomeInput = (props) => {
+const SomeInput = () => {
 
   const [enteredName, setEnteredName] = useState('');
   const [wasNameInoutTouched, setWasNameInoutTouched] = useState(false);
 
   const isEnteredNameValid = enteredName.trim() !== "";
   const isNameInputInvalid = !isEnteredNameValid && wasNameInoutTouched;
+  let isFormValid = false;
+
+  if (isEnteredNameValid) {
+    isFormValid = true;
+  };
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
   };
 
-  const nameInputLostFocusHandler = (event) => {
+  const nameInputLostFocusHandler = () => {
     setWasNameInoutTouched(true);
   }
 
@@ -45,7 +50,7 @@ const SomeInput = (props) => {
         {isNameInputInvalid && <p className="error-text">First Name is required</p>}
       </div>
       <div className="form-actions">
-        <button>Send</button>
+        <button disabled={!isFormValid}>Send</button>
       </div>
     </form>
   );
